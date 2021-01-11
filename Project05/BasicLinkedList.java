@@ -1,10 +1,10 @@
 /*
- * Basic Linked List
+ * DES
  *
  * @author Saba Ramadan
  * @version Project 05
- * @version CPE102-05
- * @version Fall 2016
+ * @version CPE102-09
+ * @version Spring 2016
  */
 
 import java.lang.Object;
@@ -12,12 +12,10 @@ import java.util.*;
 
 public class BasicLinkedList<E> implements BasicList<E>
 {
-    //instance variables
     private Node head;
     private int size;
     private Node tail;
 
-    //Constructs an empty BasicLinkedList
     public BasicLinkedList()
     {
          size = 0;
@@ -25,7 +23,6 @@ public class BasicLinkedList<E> implements BasicList<E>
          tail = null;  
     }
  
-    //Adds the element passed in to the end of the list
     public void add(E element)
     {
         Node newNode = new Node(element);
@@ -43,7 +40,6 @@ public class BasicLinkedList<E> implements BasicList<E>
         size++;
     }
 
-    //Adds (inserts) the specfied element at the specfied index of the list
     public void add(int index, E element)
     {
         if (index > size || index < 0)
@@ -82,13 +78,11 @@ public class BasicLinkedList<E> implements BasicList<E>
         }
     }
 
-    //Returns a reference to a BasicListIterator over the elements in this list in the proper sequence (first-to-last order)
     public BasicListIterator<E> basicListIterator()
     {
         return new BasicLinkedIterator();          
     }
  
-    //Clears the list of its contents without walking the list
     public void clear()
     {
         head = null;
@@ -96,7 +90,6 @@ public class BasicLinkedList<E> implements BasicList<E>
         size = 0;
     }
 
-    //Using the provided element's equals method, this method determines if the list contains the specified element or not
     public boolean contains(E element)
     {
         boolean cont = false;
@@ -119,8 +112,7 @@ public class BasicLinkedList<E> implements BasicList<E>
         }
         return cont;
     }
-   
-    //Returns a reference to the element at the specified index
+ 
     public E get(int index)
     {
         if (index >= size || index < 0)
@@ -131,7 +123,6 @@ public class BasicLinkedList<E> implements BasicList<E>
         return p.element;
     }
  
-    //Using the provided element's equals method, this method returns the index of the first element in the list that is equal to the provided element, if any.
     public int indexOf(E element)
     {
         if (head == null)
@@ -156,13 +147,11 @@ public class BasicLinkedList<E> implements BasicList<E>
         return index;
     }
  
-    //Returns a reference to a java.util.Iterator over the elements of this list in the proper sequence (first-to-last order)
     public java.util.Iterator<E> iterator()
     {  
         return new BasicLinkedIterator(); 
     }
   
-    //Removes (and returns) the specified element from the list
     public E remove(int index)
     {
         if (head == null || index >= size || index < 0)
@@ -203,7 +192,6 @@ public class BasicLinkedList<E> implements BasicList<E>
         return rp.element;
     }
 
-    //Replaces the element at the specified index with the specified element
     public E set(int index, E element)
     {
         if (index >= size || index < 0)
@@ -216,13 +204,11 @@ public class BasicLinkedList<E> implements BasicList<E>
         return e;      
     }
  
-    //returns number of elements 
     public int size()
     { 
         return size;
     }
-
-    //returns node at given int position
+  
     private Node getNode(int i)
     {
         Node p = head;
@@ -248,15 +234,12 @@ public class BasicLinkedList<E> implements BasicList<E>
         return p;
     }
 
-    //private node class
     private class Node
     {
-        //instnce variables
         public E element;
         public Node next;
         public Node prev;
  
-        //constructor that sets instance variables
         public Node(E element)
         {
             this.element = element;
@@ -265,26 +248,21 @@ public class BasicLinkedList<E> implements BasicList<E>
         }
     }
 
-    //private inner class 
     private class BasicLinkedIterator implements BasicListIterator<E>
     {
-         //instance variable
          private Node current;
          private Node previous;
  
-         //constructor sets current to head
          public BasicLinkedIterator()
          {
        	     current = head;
          }
  
-         //checks if has next node
          public boolean hasNext()
          {
              return current != null;
          }
  
-         //returns the node that comes next
          public E next()
          {
              if (!hasNext())
@@ -300,13 +278,11 @@ public class BasicLinkedList<E> implements BasicList<E>
              }
          }
 
-         //removes node
          public void remove()
          {
              throw new UnsupportedOperationException();
          }
 
-         //returns previous node
          public E previous()
          {
              if (!hasPrevious())
@@ -322,7 +298,6 @@ public class BasicLinkedList<E> implements BasicList<E>
              }
          }
 
-         //checks if node has a previous node
          public boolean hasPrevious()
          {
              return previous != null;

@@ -2,21 +2,19 @@
  * DES
  *
  * @author Saba Ramadan
- * @version Project 4
- * @version CPE102-05
- * @version Fall 2016
+ * @version Project 03(a)
+ * @version CPE102-09
+ * @version Spring 2016
  */
 
 import java.util.*;
 import java.awt.event.KeyEvent;
 
-public class Explorer extends Occupant
+public class Explorer extends Occupant implements DelimitedTextIO
 {
-  //instance variable
   private String name;
   private Maze maze;
 
-  //a constructor to initialize all the instance variables
   public Explorer(Square location, Maze maze, String name)
   {
     super(location);
@@ -25,19 +23,16 @@ public class Explorer extends Occupant
     maze.lookAround(location);
   }
 
-  //constructor that takes in maze parameter
   public Explorer(Maze maze)
   {
       this.maze = maze;
   }
 
-  //query for name
   public String name()
   {
     return name;
   }
 
-  //command the Explorer to move a direction in the Maze based on a key press from the user
   public void move(int key)
   {
     Square cursquare = location();
@@ -84,7 +79,6 @@ public class Explorer extends Occupant
     }
   }
 
-  //command the Explorer to move to another Square in the Maze
   public void moveTo(Square s)
   {
     super.moveTo(s); 
@@ -92,18 +86,16 @@ public class Explorer extends Occupant
     maze.lookAround(s);
   }
 
-  //string value for variables including delimiter
   public String toText(char delimiter)
   {
-      return super.toText(delimiter) + delimiter +  name;
+      return super.toText(delimiter) + delimiter + name;
   }
 
-  //takes input and sets values from it
   public void toObject(Scanner input)
   {
       int row = input.nextInt();
       int col = input.nextInt();
-      this.name = input.next(); 
-      moveTo(maze.getSquare(row, col));         
+      maze.getSquare(row, col);     
+      this.name = input.nextLine();          
   }
 }

@@ -8,15 +8,19 @@ import java.io.*;
  * Class to Test the Maze Game Project with File Read/Write Capabilities
  * 
  * @author Julie Workman
- * @version Version 2.0
- * @version May 19, 2013  
+ * @version Version 3.0
+ * @version May 17, 2016 
  * 
- * <br>Revisions:
- *    <br>1.0 Initial version.
+ * Revisions:
+ *    1.0 Initial version
+ *    2.0 ???
+ *    3.0 Added mazeGood3.txt
+ *        Fixed Program number 
+ *        Added toText and toObject tests
  */
 public class P4TestDriver
 {
-   private static final String RESULTS_FOR = "Results for Program 5";
+   private static final String RESULTS_FOR = "Results for Program 4";
    private static Square[][] fixedSquares = new Square[5][5];
    
    public static void main(String[] args)
@@ -1028,27 +1032,65 @@ public class P4TestDriver
       maze.addRandomOccupant(m1);
       maze.addRandomOccupant(m2);
       maze.setExplorer(ex);
+  
+      // test toText
+      String output = ex.toText(',');
+      pass &= test(output.equals("Explorer,0,0,Scary Name"), test++);  // test 1
+      
+      output = ex.toText('*');
+      pass &= test(output.equals("Explorer*0*0*Scary Name"), test++);  // test 2
+      
+      output = fixedSquares[0][0].toText(',');
+      pass &= test(output.equals("Square,0,0,true,false,false,true,true,true"), test++);  // test 3
+      
+      output = t1.toText(',');
+      pass &= test(output.equals("Treasure,4,4,true"), test++);  // test 4
+      
+      output = m2.toText(',');
+      pass &= test(output.equals("Monster,3,3"), test++);  // test 5
+      
+      // test toObject
+      Scanner sc = new Scanner("2,3,false");
+      sc.useDelimiter(",");
+      Treasure t3 = new Treasure(maze);
+      t3.toObject(sc);
+      pass &= test(t3.location().row() == 2, test++);  // test 6
+      pass &= test(t3.location().col() == 3, test++);  // test 7
+      pass &= test(!t3.found(), test++);  // test 8
+      
+      sc = new Scanner("false,false,true,true,true,false");
+      sc.useDelimiter(",");
+      Square square = new Square(1,4);
+      square.toObject(sc);
+      pass &= test(square.row() == 1, test++);  // test 9
+      pass &= test(square.col() == 4, test++);  // test 10
+      pass &= test(!square.wall(Square.UP), test++);  // test 11
+      pass &= test(!square.wall(Square.RIGHT), test++);  // test 12
+      pass &= test(square.wall(Square.DOWN), test++);  // test 13
+      pass &= test(square.wall(Square.LEFT), test++);  // test 14
+      pass &= test(square.seen(), test++);  // test 15
+      pass &= test(!square.inView(), test++);  // test 16
       
       // test writing maze to file
-      maze.writeMazeToFile("mytest.txt");
-      pass &= test(filesEqual("mytest.txt", "mazeGood.txt"), test++);  // test 1
+      maze.writeMazeToFile("test.txt");
+      pass &= test(filesEqual("test.txt", "mazeGood.txt"), test++);  // test 17
       
       // move the explorer
       maze.getExplorer().moveTo(maze.getSquare(0,2));
-      maze.writeMazeToFile("mytest2.txt");
-      pass &= test(filesEqual("mytest2.txt", "mazeGood2.txt"), test++);  // test 2
+      maze.writeMazeToFile("test.txt");
+      pass &= test(filesEqual("test.txt", "mazeGood2.txt"), test++);  // test 18
   
       // test reading a good maze
       maze = new Maze();
       maze.readMazeFromFile("mazeGood.txt");
       maze.writeMazeToFile("test.txt");
-      pass &= test(filesEqual("test.txt", "mazeGood.txt"), test++);  // test 3
+      pass &= test(filesEqual("test.txt", "mazeGood.txt"), test++);  // test 19
       
       // test reading a good maze with Square out of row/col order
       maze = new Maze();
       maze.readMazeFromFile("mazeGoodOutOfOrder.txt");
       maze.writeMazeToFile("test.txt");
-      pass &= test(filesEqual("test.txt", "mazeGood.txt"), test++);  // test 4
+      pass &= test(filesEqual("test.txt", "mazeGood.txt"), test++);  // test 20
       
       // test reading a bad file - bad row/col
       maze = new Maze();
@@ -1060,19 +1102,19 @@ public class P4TestDriver
       catch (MazeReadException e)
       {
          caught = true;
-         pass &= test(e.getMessage().equals("Rows and columns not specified."), test++); // test 5
-         pass &= test(e.getLine().equals("Square,0,0,true,false,false,true,true,true"), test++); // test 6
-         pass &= test(e.getLineNum() == 1, test++); // test 7
+         pass &= test(e.getMessage().equals("Rows and columns not specified."), test++); // test 21
+         pass &= test(e.getLine().equals("Square,0,0,true,false,false,true,true,true"), test++); // test 22
+         pass &= test(e.getLineNum() == 1, test++); // test 23
       }
       
       if (!caught)
       {
-         System.out.println("   FAILED test #8"); // test 8
+         System.out.println("   FAILED test #24"); // test 24
          pass &= false;
       }
-      test = 9;
       
       // test reading a bad file - duplicate square
+      test = 25;
       maze = new Maze();
       caught = false;
       try 
@@ -1082,19 +1124,19 @@ public class P4TestDriver
       catch (MazeReadException e)
       {
          caught = true;
-         pass &= test(e.getMessage().equals("Duplicate square."), test++); // test 9
-         pass &= test(e.getLine().equals("Square,2,0,false,false,false,true,false,false"), test++); // test 10
-         pass &= test(e.getLineNum() == 13, test++); // test 11
+         pass &= test(e.getMessage().equals("Duplicate square."), test++); // test 25
+         pass &= test(e.getLine().equals("Square,2,0,false,false,false,true,false,false"), test++); // test 26
+         pass &= test(e.getLineNum() == 13, test++); // test 27
       }
       
       if (!caught)
       {
-         System.out.println("   FAILED test #11"); // test 12
+         System.out.println("   FAILED test #28"); // test 28
          pass &= false;
       }
-      test = 13;
       
       // test reading a bad file - unknown type
+      test = 29;
       maze = new Maze();
       caught = false;
       try 
@@ -1104,19 +1146,19 @@ public class P4TestDriver
       catch (MazeReadException e)
       {
          caught = true;
-         pass &= test(e.getMessage().equals("Unknown type."), test++); // test 13
-         pass &= test(e.getLine().equals("Sword,1,4,false,true,false,true,false,false"), test++); // test 14
-         pass &= test(e.getLineNum() == 11, test++); // test 15
+         pass &= test(e.getMessage().equals("Unknown type."), test++); // test 29
+         pass &= test(e.getLine().equals("Sword,1,4,false,true,false,true,false,false"), test++); // test 30
+         pass &= test(e.getLineNum() == 11, test++); // test 31
       }
       
       if (!caught)
       {
-         System.out.println("   FAILED test #16"); // test 16
+         System.out.println("   FAILED test #32"); // test 32
          pass &= false;
       }
-      test = 17;
       
       // test reading a bad file - bad line format
+      test = 33;
       maze = new Maze();
       caught = false;
       try 
@@ -1126,19 +1168,19 @@ public class P4TestDriver
       catch (MazeReadException e)
       {
          caught = true;
-         pass &= test(e.getMessage().equals("Line format or other error."), test++); // test 17
-         pass &= test(e.getLine().equals("Treasure,4,true,4,true"), test++); // test 18
-         pass &= test(e.getLineNum() == 28, test++); // test 19
+         pass &= test(e.getMessage().equals("Line format or other error."), test++); // test 33
+         pass &= test(e.getLine().equals("Treasure,4,true,4,true"), test++); // test 34
+         pass &= test(e.getLineNum() == 28, test++); // test 35
       }
       
       if (!caught)
       {
-         System.out.println("   FAILED test #20"); // test 20
+         System.out.println("   FAILED test #36"); // test 36
          pass &= false;
       }
-      test = 21;
       
       // test reading a bad file - different bad line format
+      test = 37;
       maze = new Maze();
       caught = false;
       try 
@@ -1148,23 +1190,31 @@ public class P4TestDriver
       catch (MazeReadException e)
       {
          caught = true;
-         pass &= test(e.getMessage().equals("Line format or other error."), test++); // test 21
-         pass &= test(e.getLine().equals(""), test++); // test 22
-         pass &= test(e.getLineNum() == 3, test++); // test 23
+         pass &= test(e.getMessage().equals("Line format or other error."), test++); // test 37
+         pass &= test(e.getLine().equals(""), test++); // test 38
+         pass &= test(e.getLineNum() == 3, test++); // test 39
       }
       
       if (!caught)
       {
-         System.out.println("   FAILED test #24"); // test 24
+         System.out.println("   FAILED test #40"); // test 40
          pass &= false;
       }
-      test = 25;
       
       // test reading a good maze with different number of rows/cols
+      test = 41;
       maze = new Maze();
       maze.readMazeFromFile("mazeGoodDiffRowsCols.txt");
       maze.writeMazeToFile("test.txt");
-      pass &= test(filesEqual("test.txt", "mazeGoodDiffRowsCols.txt"), test++);  // test 25
+      pass &= test(filesEqual("test.txt", "mazeGoodDiffRowsCols.txt"), test++);  // test 41
+      
+      // test reading a good maze with occupants in a different order
+      maze = new Maze();
+      maze.readMazeFromFile("mazeGood3.txt");
+      maze.writeMazeToFile("test.txt");
+      // should be equivalent to mazeGood3a.txt because the explorer has "looked around"
+      // and the standard way to write the files is explorer first, then other occupants
+      pass &= test(filesEqual("test.txt", "mazeGood3a.txt"), test++);  // test 42
 
       return pass;  
    }

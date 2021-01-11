@@ -2,21 +2,19 @@
  * DES
  *
  * @author Saba Ramadan
- * @version Project 4
- * @version CPE102-05
- * @version Fall 2016
+ * @version Project 03(a)
+ * @version CPE102-09
+ * @version Spring 2016
  */
 
 import java.util.*;
 import java.*;
 
-public abstract class RandomOccupant extends Occupant
+public abstract class RandomOccupant extends Occupant implements DelimitedTextIO
 {
-  //instance variables
   private Random rand = new Random();
   private Maze maze;
 
-  //a constructor to initialize the maze variable and randomly set its location in the maze
   public RandomOccupant(Maze maze)
   {
     super();
@@ -28,8 +26,7 @@ public abstract class RandomOccupant extends Occupant
     Square sq = maze.getSquare(x, y);
     super.moveTo(sq);
   }
- 
-  //a constructor to initialize the maze variable and randomly set its location in the maze, just like the above constructor
+
   public RandomOccupant(Maze maze, long seed)
   {
     super();
@@ -43,14 +40,12 @@ public abstract class RandomOccupant extends Occupant
     super.moveTo(sq);
   }
 
-  //a constructor to initialize the maze variable and the location of its parent
   public RandomOccupant(Maze maze, Square location)
   {
     super(location);
     this.maze = maze;
   }
 
-  //this method is responsible for moving the RandomOccupant in a random fashion
   public void move()
   {
     Square cursquare = location();
@@ -95,12 +90,11 @@ public abstract class RandomOccupant extends Occupant
       }
     }
   } 
- 
-  //takes input and sets values 
+  
   public void toObject(Scanner input)
   {
       int row = input.nextInt();
       int col = input.nextInt();
-      moveTo(maze.getSquare(row, col));
+      maze.getSquare(row, col);
   }
 }
